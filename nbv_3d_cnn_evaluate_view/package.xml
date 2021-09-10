@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>nbv_3d_cnn_evaluate_view</name>
+  <version>0.0.0</version>
+  <description>The nbv_3d_cnn_evaluate_view package</description>
+
+  <maintainer email="rimlab@todo.todo">rimlab</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <depend>roscpp</depend>
+  <depend>rmonica_voxelgrid_common</depend>
+  <depend>nbv_3d_cnn_evaluate_view_msgs</depend>
+  <depend>eigen_conversions</depend>
+  <depend>actionlib</depend>
+  <depend>sensor_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>message_serialization</depend>
+  <depend>cv_bridge</depend>
+  <depend>pcl_conversions</depend>
+  <depend>render_robot_urdf</depend>
+  <depend>nbv_3d_cnn_msgs</depend>
+  <depend>nbv_3d_cnn_real_image_msgs</depend>
+
+  <export>
+
+  </export>
+</package>

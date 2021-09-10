@@ -1,0 +1,17 @@
+uint32 image_width
+uint32 image_height
+
+sensor_msgs/Image depth_image
+sensor_msgs/Image normal_image
+sensor_msgs/Image robot_image
+sensor_msgs/Image robot_normal_image
+
+float32[] output_mask
+---
+uint32 image_width
+uint32 image_height
+
+float64 prediction_time
+
+sensor_msgs/Image probability_mask
+---

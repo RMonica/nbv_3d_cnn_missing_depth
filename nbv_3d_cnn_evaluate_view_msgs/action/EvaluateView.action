@@ -1,0 +1,57 @@
+geometry_msgs/Pose pose
+
+sensor_msgs/JointState joint_state
+
+float32 center_x
+float32 center_y
+float32 focal_x
+float32 focal_y
+uint32 size_x
+uint32 size_y
+
+uint32 MODE_ADVANCED_PROB = 0
+uint32 MODE_STANDARD_PROB = 1
+uint32 MODE_IMAGE_PREDICT_PROB = 2
+uint32 MODE_PROJ_PREDICT_PROB = 3
+uint32 MODE_FIXED = 4
+uint32 mode
+
+float32 fixed_probability
+
+bool has_roi_sphere
+geometry_msgs/Point roi_sphere_center
+float32 roi_sphere_radius
+
+# float32 image, or empty for none
+sensor_msgs/Image external_mask
+
+bool with_saliency_images
+
+float32 max_range
+float32 min_range
+---
+sensor_msgs/Image predicted_depth_image
+uint8 STATUS_UNKNOWN  = 0
+uint8 STATUS_OCCUPIED = 1
+uint8 STATUS_LOST     = 2
+sensor_msgs/Image predicted_depth_image_status 
+sensor_msgs/Image predicted_normal_image
+
+sensor_msgs/Image predicted_realistic_image
+sensor_msgs/Image predicted_score_image
+sensor_msgs/Image predicted_unmasked_score_image
+
+sensor_msgs/Image predicted_mask
+
+sensor_msgs/Image[] saliency_images
+
+float32 gain
+
+float64 network_prediction_time
+
+float64 raycast_time
+float64 robot_time
+float64 filter_time
+float64 prob_raycast_time
+float64 total_time
+---

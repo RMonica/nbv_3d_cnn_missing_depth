@@ -1,0 +1,21 @@
+<launch>
+
+  <node name="cnn_real_image_projection_predict" type="cnn_real_image_projection_predict.py" pkg="nbv_3d_cnn_real_image" output="screen" clear_params="true">
+    <env name="TF_CPP_MIN_LOG_LEVEL" value="2" />
+    
+    <param name="raycasting_downsampling" type="int" value="8" />
+    
+    <!--<param name="model_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_autocomplete/autocomplete_final.chkpt" />-->
+    <!--<param name="partial_model_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_autocomplete/autocomplete_final.chkpt" />-->
+  </node>
+  
+  <node name="cnn_real_image_projection" type="cnn_real_image_projection" pkg="nbv_3d_cnn_real_image" output="screen" clear_params="true">
+    <param name="projection_predict_action" type="string" value="/cnn_real_image_projection_predict/predict" />
+    
+    
+    <param name="environment_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_1/partial_environments/cropped_2.voxelgrid" />
+    <param name="pose_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_1/images/pose_0.matrix" />
+    
+  </node>
+
+</launch>

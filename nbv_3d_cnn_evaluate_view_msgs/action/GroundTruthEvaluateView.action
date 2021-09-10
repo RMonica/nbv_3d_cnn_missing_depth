@@ -1,0 +1,20 @@
+geometry_msgs/Pose pose
+
+float32 center_x
+float32 center_y
+float32 focal_x
+float32 focal_y
+uint32 size_x
+uint32 size_y
+
+bool has_roi_sphere
+geometry_msgs/Point roi_sphere_center
+float32 roi_sphere_radius
+
+# depth image from the sensor
+sensor_msgs/Image depth_image
+---
+sensor_msgs/Image predicted_score_image
+
+float32 gain
+---

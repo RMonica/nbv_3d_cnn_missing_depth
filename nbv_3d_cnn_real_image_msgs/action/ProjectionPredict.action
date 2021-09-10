@@ -1,0 +1,36 @@
+uint32 environment_width
+uint32 environment_height
+uint32 environment_depth
+float32 environment_voxel_size
+geometry_msgs/Point environment_origin
+
+float32[] ternary_voxelgrid
+
+uint32 image_width
+uint32 image_height
+uint32 image_depth
+float32 fx
+float32 fy
+float32 cx
+float32 cy
+float32 max_range
+geometry_msgs/Pose camera_pose
+
+bool with_saliency_images
+
+sensor_msgs/Image depth_image
+sensor_msgs/Image normal_image
+sensor_msgs/Image robot_image
+sensor_msgs/Image robot_normal_image
+
+float32[] output_mask
+---
+uint32 image_width
+uint32 image_height
+
+float64 prediction_time
+
+sensor_msgs/Image[] saliency_images
+
+sensor_msgs/Image probability_mask
+---

@@ -1,0 +1,25 @@
+<launch>
+
+  <node name="cnn_real_image_autocomplete_generate" type="cnn_real_image_autocomplete_train.py" pkg="nbv_3d_cnn_real_image" output="screen" clear_params="true">
+    <param name="source_images_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/environments_3d_realistic/" />
+    <param name="dest_images_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/output_autocomplete/" />
+
+    <param name="tensorboard_directory" type="string" value="$(find nbv_3d_cnn_real_image)/data/tensorboard/" />
+
+    <param name="load_checkpoint" type="string" value="autocomplete_final.chkpt" />
+    <!--<param name="load_checkpoint" type="string" value="_epoch_40.chkpt" />-->
+    
+    <param name="training_dataset_first_element" type="int" value="0" />
+    <param name="training_dataset_last_element" type="int" value="120" />
+    <param name="validation_dataset_first_element" type="int" value="120" />
+    <param name="validation_dataset_last_element" type="int" value="180" />
+    
+    <param name="partial_environments_number" type="int" value="5" />
+  
+    <!--<param name="num_epochs" type="int" value="5" />-->
+    <param name="num_epochs" type="int" value="60" />
+
+    <param name="evaluation_only" type="bool" value="false" />
+  </node>
+
+</launch>

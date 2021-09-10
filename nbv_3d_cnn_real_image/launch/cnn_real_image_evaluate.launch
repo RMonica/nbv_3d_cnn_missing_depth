@@ -1,0 +1,149 @@
+<launch>
+
+  <arg name="center_x" value="0.3" />
+  <arg name="center_y" value="0.8" />
+  <arg name="center_z" value="0.4" />
+  <arg name="center" value="$(arg center_x) $(arg center_y) $(arg center_z)" />
+  
+  <arg name="cnn_half_volume_size" value="0.4" />
+  <arg name="cnn_bounding_box_max" value="$(eval str(arg('center_x')+arg('cnn_half_volume_size')) + ' ' + 
+                                             str(arg('center_y')+arg('cnn_half_volume_size')) + ' ' + 
+                                             str(arg('center_z')+arg('cnn_half_volume_size')))" />
+  <arg name="cnn_bounding_box_min" value="$(eval str(arg('center_x')-arg('cnn_half_volume_size')) + ' ' + 
+                                             str(arg('center_y')-arg('cnn_half_volume_size')) + ' ' + 
+                                             '0.2')" />
+                                             
+  <!--<arg name="mode" value="none" />-->
+  <!--<arg name="mode" value="gt" />-->
+  <!--<arg name="mode" value="fixed" />-->
+  <!--<arg name="mode" value="adhoc" />-->
+  <!--<arg name="mode" value="only2d" />-->
+  <!--<arg name="mode" value="projection_full" />-->
+  <arg name="mode" value="only3d" />
+  <!--<arg name="mode" value="unfrozen" />-->
+  <!--<arg name="mode" value="noattention" />-->
+  
+  <arg name="is_mode_only2d" value="$(eval arg('mode') == 'only2d')" />
+  <arg name="is_mode_projection" value="$(eval arg('mode') in ['projection_full', 'only3d', 'unfrozen', 'noattention'])" />
+
+  <node pkg="nbv_3d_cnn_real_image" type="cnn_real_image_evaluate" name="cnn_real_image_evaluate" clear_params="true" output="screen">
+    <param name="mode" type="string" value="$(arg mode)" unless="$(arg is_mode_projection)" />
+    <param name="mode" type="string" value="projection_full" if="$(arg is_mode_projection)" />
+    
+    <param name="scenario_first_index" type="int" value="11" />
+    <param name="scenario_last_index" type="int" value="15" />
+    
+    <param name="with_saliency_images" type="bool" value="true" />
+    <param name="save_images" type="bool" value="true" />
+    
+    <param name="scenario_file_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_" />
+    <param name="gt_file_prefix" type="string" value="/virtual_images/" />
+    <param name="environment_file_prefix" type="string" value="/partial_environments/" />
+    
+    <param name="image_file_prefix" type="string" value="/images/" />
+    <param name="mask_file_name" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_1/virtual_images/mask.png" />
+    
+    <param name="evaluation_file_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/evaluation/$(arg mode)/" />
+    
+    <param name="fixed_mode_fixed_probability" type="double" value="0.86885" />
+    
+    <param name="cnn_bounding_box_min" type="string" value="$(arg cnn_bounding_box_min)" />
+    <param name="cnn_bounding_box_max" type="string" value="$(arg cnn_bounding_box_max)" />
+  </node> 
+
+  <node pkg="nbv_3d_cnn_evaluate_view" type="nbv_3d_cnn_evaluate_view" name="evaluate_view" clear_params="true" output="screen">
+    <rosparam command="load" file="$(find comau_nbv_cnn_acquisition)/launch/filter_parameters.yaml" />
+    
+    <param name="predict_autocomplete_action_name" type="string" value="/nbv_3d_cnn_predict_autocomplete/predict3d" />
+    
+    <param name="predict_image_action_name" type="string" value="/cnn_real_image_predict/predict" if="$(arg is_mode_only2d)" />
+    <param name="predict_projection_action_name" type="string" value="/cnn_real_image_projection_predict/predict" if="$(arg is_mode_projection)" />
+    
+    <param name="crop_bbox_min" type="string" value="-0.2 0.3 0.2" />
+    <param name="crop_bbox_max" type="string" value="0.8 1.3 0.9" />
+    
+    <param name="cnn_max_range" type="double" value="1.5" />
+    <param name="cnn_image_depth" type="int" value="128" />
+  </node>
+
+  <node pkg="render_robot_urdf" type="render_robot_urdf" name="render_robot_urdf" output="screen" clear_params="true">
+
+      <param name="with_color" type="bool" value="true" />
+      <param name="with_normals" type="bool" value="true" />
+
+      <param name="model_param_name" type="string" value="robot_description" />
+
+      <!-- set this to your robot description -->
+      <param
+        name="robot_description"
+        command="$(find xacro)/xacro '$(find render_robot_urdf)/data/urdf/comau_nolimits_nobase.urdf'"/>
+  </node>
+  
+  <node name="nbv_3d_cnn_predict_autocomplete" type="nbv_3d_cnn_predict.py" pkg="nbv_3d_cnn" output="screen" clear_params="true">
+    <env name="TF_CPP_MIN_LOG_LEVEL" value="2" />
+    <param name="checkpoint_file" type="string" value="$(find nbv_3d_cnn)/data/trained_models/realistic/autocomplete_3d_epoch_40.chkpt" />
+
+    <param name="sub_image_expand_pow" type="int" value="0" />
+    <param name="log_accuracy_skip_voxels" type="int" value="3" />
+
+    <param name="model_type" type="string" value="autocomplete" />
+
+    <param name="action_name" type="string" value="~predict3d" />
+    <param name="is_3d" type="bool" value="true" />
+    <param name="sensor_range_voxels" type="double" value="32" />
+    
+    <param name="max_memory_mb" type="int" value="2048" />
+  </node>
+  
+  <group if="$(arg is_mode_only2d)">
+  
+    <node name="cnn_real_image_predict" type="cnn_real_image_predict.py" pkg="nbv_3d_cnn_real_image" output="screen" clear_params="true">
+      <env name="TF_CPP_MIN_LOG_LEVEL" value="2" />
+      
+      <param name="model_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/model/_final.chkpt" />
+
+      <param name="action_name" type="string" value="~predict" />
+      
+      <param name="max_range" type="double" value="4.0" />
+      
+      <param name="max_memory_mb" type="int" value="1024" />
+      <!--<param name="max_memory_mb" type="int" value="50" />-->
+    </node>
+  
+  </group>
+  
+  <group if="$(arg is_mode_projection)">
+  
+    <node name="cnn_real_image_projection_predict" type="cnn_real_image_projection_predict.py" pkg="nbv_3d_cnn_real_image" output="screen" clear_params="true">
+      <env name="TF_CPP_MIN_LOG_LEVEL" value="2" />
+      
+      <param name="model_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_projection/projection_final.chkpt" 
+        if="$(eval arg('mode') == 'projection_full')" />
+      <param name="model_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_only3d/only3d_final.chkpt" 
+        if="$(eval arg('mode') == 'only3d')" />
+      <param name="model_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_unfrozen/unfrozen_final.chkpt" 
+        if="$(eval arg('mode') == 'unfrozen')" />
+      <param name="model_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_noattention/noattention_final.chkpt" 
+        if="$(eval arg('mode') == 'noattention')" />
+        
+      <param name="network_mode" type="string" value="full" if="$(eval arg('mode') == 'projection_full')" />
+      <param name="network_mode" type="string" value="only3d" if="$(eval arg('mode') == 'only3d')" />
+      <param name="network_mode" type="string" value="unfrozen" if="$(eval arg('mode') == 'unfrozen')" />
+      <param name="network_mode" type="string" value="noattention" if="$(eval arg('mode') == 'noattention')" />
+
+      <param name="action_name" type="string" value="~predict" />
+      
+      <param name="max_range" type="double" value="4.0" />
+      
+      <param name="raycasting_downsampling" type="int" value="8" />
+      
+      <!--<param name="max_memory_mb" type="int" value="300" /> full -->
+      <!--<param name="max_memory_mb" type="int" value="1350" /> noattention -->
+      <!--<param name="max_memory_mb" type="int" value="300" /> unfrozen -->
+      <!--<param name="max_memory_mb" type="int" value="300" /> only3d -->
+      <param name="max_memory_mb" type="int" value="1536" />
+    </node>
+  
+  </group>
+
+</launch>

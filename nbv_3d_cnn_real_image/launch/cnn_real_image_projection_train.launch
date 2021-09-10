@@ -1,0 +1,58 @@
+<launch>
+
+  <!--<arg name="mode" value="projection" />-->
+  <!--<arg name="mode" value="noattention" />-->
+  <!--<arg name="mode" value="only3d" />-->
+  <arg name="mode" value="unfrozen" />
+
+  <node name="cnn_real_image_projection_generate" type="cnn_real_image_projection_train.py" pkg="nbv_3d_cnn_real_image" output="screen" clear_params="true">
+    <param name="scenario_file_name_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_" />
+    <param name="environment_prefix" type="string" value="/partial_environments/" />
+    <param name="image_file_name_prefix" type="string" value="/virtual_images/" />
+    <param name="pose_file_name_prefix" type="string" value="/images/" />
+    <param name="dest_images_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/output_$(arg mode)/" />
+    <param name="mask_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_1/virtual_images/mask.png" />
+
+    <param name="tensorboard_directory" type="string" value="$(find nbv_3d_cnn_real_image)/data/tensorboard/" />
+    
+    <!--
+    <param name="load_partial_checkpoint" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_autocomplete/autocomplete_final.chkpt" />
+    <param name="partial_checkpoint_type" type="string" value="autocomplete" />-->
+    
+    <!--<param name="load_checkpoint" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_projection/projection_final.chkpt" />-->
+    
+    <param name="training_dataset_first_element" type="int" value="1" />
+    <param name="training_dataset_last_element" type="int" value="11" />
+    <param name="validation_dataset_first_element" type="int" value="11" />
+    <param name="validation_dataset_last_element" type="int" value="15" />
+    
+    <param name="max_range" type="double" value="1.5" />
+    <param name="camera_fx" type="double" value="517.177" />
+    <param name="camera_fy" type="double" value="518.680" />
+    <param name="camera_cx" type="double" value="313.199" />
+    <param name="camera_cy" type="double" value="238.733" />
+    
+    <param name="image_width" type="double" value="640" />
+    <param name="image_height" type="double" value="480" />
+    <param name="image_depth" type="int" value="128" />
+    <param name="raycasting_downsampling" type="int" value="8" />
+    
+    <param name="partial_environments_number" type="int" value="5" />
+    
+    <param name="batch_size" type="int" value="4" />
+    
+    <param name="max_memory_mb" type="int" value="20000" />
+  
+    <param name="num_epochs" type="int" value="100" />
+    <!--<param name="num_epochs" type="int" value="5" />-->
+    
+    <param name="evaluation_only" type="bool" value="false" />
+
+    <param name="learning_rate" type="double" value="0.0005" />
+    
+    <param name="network_mode" type="string" value="$(arg mode)" />
+    
+    <env name="TF_CPP_MIN_LOG_LEVEL" value="2" />
+  </node>
+
+</launch>

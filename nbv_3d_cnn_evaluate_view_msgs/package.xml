@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>nbv_3d_cnn_evaluate_view_msgs</name>
+  <version>0.0.0</version>
+  <description>The nbv_3d_cnn_evaluate_view_msgs package</description>
+
+  <maintainer email="rimlab@todo.todo">rimlab</maintainer>
+
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>genmsg</buildtool_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <depend>actionlib_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>sensor_msgs</depend>
+
+  <export>
+    
+  </export>
+</package>

@@ -1,0 +1,17 @@
+float32 voxel_size
+geometry_msgs/Point environment_origin # world position of cell (0 0 0)
+
+std_msgs/Int8MultiArray environment # 0: unknown, -1: empty, 1: occupied
+#string load_from_ternary_file
+
+float32 probabilities_voxel_size           # if different from voxel_size, the matrix will be resampled before probability prediction
+uint64[3] probabilities_size               # size of the region where probabilistic prediction is carried out, in voxel_size voxels
+uint64[3] probabilities_origin             # origin in environment, in voxel_size voxels
+
+sensor_msgs/PointCloud2 tsdf_cloud # XYZI
+---
+bool ok
+
+std_msgs/Float32MultiArray predicted_probabilities
+float64 prediction_time
+---

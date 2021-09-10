@@ -1,0 +1,43 @@
+<launch>
+  <arg name="scenario" value="4" />
+
+  <node pkg="nbv_3d_cnn_real_image" type="generate_virtual_views" name="generate_virtual_views" clear_params="true" output="screen">
+    <param name="voxelgrid_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/partial_environments/" />
+    <param name="tsdf_volume_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/kinfu_tsdf.pcd" />
+    <param name="voxelgrid_metadata_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/voxelgrid_metadata.txt" />
+
+    <param name="input_image_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/images/" />
+    <param name="output_image_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/virtual_images/" />
+    
+    <param name="poi_file_name" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/poi.txt" />
+    
+    <param name="image_number" type="int" value="0" />
+    <param name="image_number_count" type="int" value="10000" />
+    
+    <param name="clear_poi_region" type="int" value="0" />
+    
+    <param name="depth_images_per_pose" type="int" value="5" />
+    
+    <param name="kinfu_voxel_size" type="double" value="0.005859375" />
+  </node> 
+
+  <node pkg="nbv_3d_cnn_evaluate_view" type="nbv_3d_cnn_evaluate_view" name="evaluate_view" clear_params="true" output="screen">
+    <rosparam command="load" file="$(find comau_nbv_cnn_acquisition)/launch/filter_parameters.yaml" />
+    
+    <param name="predict_autocomplete_action_name" type="string" value="" />
+  </node>
+
+  <node pkg="render_robot_urdf" type="render_robot_urdf" name="render_robot_urdf" output="screen" clear_params="true">
+
+      <param name="with_color" type="bool" value="true" />
+      <param name="with_normals" type="bool" value="true" />
+
+      <param name="model_param_name" type="string" value="robot_description" />
+
+      <!-- set this to your robot description -->
+      <param
+        name="robot_description"
+        command="$(find xacro)/xacro '$(find render_robot_urdf)/data/urdf/comau_nolimits_nobase.urdf'"/>
+  </node>
+
+</launch>

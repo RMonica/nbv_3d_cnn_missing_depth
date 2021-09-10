@@ -1,0 +1,37 @@
+<launch>
+
+  <node name="cnn_real_image_model_generate" type="cnn_real_image_model_train.py" pkg="nbv_3d_cnn_real_image" output="screen" clear_params="true">
+    <param name="scenario_file_name_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_" />
+    <param name="image_file_name_prefix" type="string" value="/virtual_images/" />
+    <param name="dest_images_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/output/" />
+    <param name="mask_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_1/virtual_images/mask.png" />
+
+    <param name="tensorboard_directory" type="string" value="$(find nbv_3d_cnn_real_image)/data/tensorboard/" />
+    
+    <param name="model_file_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/output/" />
+
+    <!--<param name="load_checkpoint" type="string" value="$(find nbv_3d_cnn_real_image)/data/model/_final.chkpt" />-->
+    <!--<param name="load_checkpoint" type="string" value="_epoch_40.chkpt" />-->
+    
+    <param name="training_dataset_first_element" type="int" value="1" />
+    <param name="training_dataset_last_element" type="int" value="11" />
+    <param name="validation_dataset_first_element" type="int" value="11" />
+    <param name="validation_dataset_last_element" type="int" value="15" />
+    
+    <param name="max_range" type="double" value="4.0" />
+    
+    <param name="batch_size" type="int" value="4" />
+
+    <param name="max_memory_mb" type="int" value="10000" />
+    
+    <param name="partial_environments_number" type="int" value="5" />
+  
+    <!--<param name="num_epochs" type="int" value="5" />-->
+    <param name="num_epochs" type="int" value="100" />
+
+    <param name="evaluation_only" type="bool" value="false" />
+    
+    <env name="TF_CPP_MIN_LOG_LEVEL" value="2" />
+  </node>
+
+</launch>

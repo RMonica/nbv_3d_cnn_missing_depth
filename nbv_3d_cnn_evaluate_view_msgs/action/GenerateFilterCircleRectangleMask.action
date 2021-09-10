@@ -1,0 +1,5 @@
+uint64 width
+uint64 height
+---
+sensor_msgs/Image mask
+---

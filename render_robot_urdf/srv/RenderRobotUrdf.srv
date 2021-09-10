@@ -1,0 +1,16 @@
+geometry_msgs/Pose camera_pose
+geometry_msgs/Pose robot_pose
+sensor_msgs/JointState joint_state
+
+float32 center_x
+float32 center_y
+float32 focal_x
+float32 focal_y
+float32 min_range
+float32 max_range
+uint32 width
+uint32 height
+---
+sensor_msgs/Image color_image
+sensor_msgs/Image depth_image
+sensor_msgs/Image normal_image
