@@ -1,0 +1,22 @@
+<launch>
+  <arg name="scenario" value="14" />
+
+  <node pkg="nbv_3d_cnn_real_image" type="generate_partial_environments" name="generate_partial_environments" output="screen" clear_params="true">
+    <param name="voxelgrid_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/kinfu_voxelgrid.voxelgrid" />
+    <param name="metadata_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/voxelgrid_metadata.txt" />
+    
+    <param name="images_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/images/" />
+    <param name="output_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/partial_environments/" />
+
+    <param name="poi_file_name" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_$(arg scenario)/poi.txt" />
+    
+    <param name="crop_bbox_min" type="string" value="-0.2 0.3 0.2" />
+    <param name="crop_bbox_max" type="string" value="0.8 1.3 0.9" />
+    
+    <param name="select_viewpoints_min" type="int" value="1" />
+    <param name="select_viewpoints_max" type="int" value="4" />
+    
+    <param name="num_incomplete_environments" type="int" value="3" />
+  </node>
+
+</launch>

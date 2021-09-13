@@ -94,6 +94,19 @@ target_link_libraries(cnn_real_image_eval_gain
   ${OpenCV_LIBRARIES}
 )
 
+add_executable(generate_partial_environments
+  src/generate_partial_environments.cpp
+)
+
+add_dependencies(generate_partial_environments ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+target_link_libraries(generate_partial_environments
+  ${catkin_LIBRARIES}
+  ${PCL_LIBRARIES}
+  ${Eigen3_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
 #############
 ## Install ##
 #############

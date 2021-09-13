@@ -18,8 +18,8 @@
   <!--<arg name="mode" value="fixed" />-->
   <!--<arg name="mode" value="adhoc" />-->
   <!--<arg name="mode" value="only2d" />-->
-  <!--<arg name="mode" value="projection_full" />-->
-  <arg name="mode" value="only3d" />
+  <arg name="mode" value="projection_full" />
+  <!--<arg name="mode" value="only3d" />-->
   <!--<arg name="mode" value="unfrozen" />-->
   <!--<arg name="mode" value="noattention" />-->
   
@@ -79,7 +79,7 @@
         command="$(find xacro)/xacro '$(find render_robot_urdf)/data/urdf/comau_nolimits_nobase.urdf'"/>
   </node>
   
-  <node name="nbv_3d_cnn_predict_autocomplete" type="nbv_3d_cnn_predict.py" pkg="nbv_3d_cnn" output="screen" clear_params="true">
+  <node name="nbv_3d_cnn_predict_autocomplete" type="nbv_3d_cnn_predict.py" pkg="nbv_3d_cnn_evaluate_view" output="screen" clear_params="true">
     <env name="TF_CPP_MIN_LOG_LEVEL" value="2" />
     <param name="checkpoint_file" type="string" value="$(find nbv_3d_cnn)/data/trained_models/realistic/autocomplete_3d_epoch_40.chkpt" />
 
