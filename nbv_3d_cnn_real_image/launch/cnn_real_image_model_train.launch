@@ -3,7 +3,7 @@
   <node name="cnn_real_image_model_generate" type="cnn_real_image_model_train.py" pkg="nbv_3d_cnn_real_image" output="screen" clear_params="true">
     <param name="scenario_file_name_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_" />
     <param name="image_file_name_prefix" type="string" value="/virtual_images/" />
-    <param name="dest_images_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/output/" />
+    <param name="dest_images_prefix" type="string" value="$(find nbv_3d_cnn_real_image)/data/output_only2d/" />
     <param name="mask_filename" type="string" value="$(find nbv_3d_cnn_real_image)/data/training_images/scenario_1/virtual_images/mask.png" />
 
     <param name="tensorboard_directory" type="string" value="$(find nbv_3d_cnn_real_image)/data/tensorboard/" />

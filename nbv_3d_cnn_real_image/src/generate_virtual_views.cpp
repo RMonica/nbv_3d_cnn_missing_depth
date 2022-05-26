@@ -612,7 +612,10 @@ class GenerateVirtualViews
   void onTimer(const ros::TimerEvent &)
   {
     if (!Run())
+    {
+      ros::shutdown();
       return;
+    }
 
     m_timer.stop();
     m_timer.setPeriod(ros::Duration(0.0));

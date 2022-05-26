@@ -437,6 +437,8 @@ class GeneratePartialEnvironments
       }
     }
     ROS_INFO("generate_partial_environments: done.");
+
+    ros::shutdown();
   }
 
   private:

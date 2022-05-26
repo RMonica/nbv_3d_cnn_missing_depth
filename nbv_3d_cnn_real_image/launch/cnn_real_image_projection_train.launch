@@ -15,9 +15,9 @@
 
     <param name="tensorboard_directory" type="string" value="$(find nbv_3d_cnn_real_image)/data/tensorboard/" />
     
-    <!--
+    <!-- -->
     <param name="load_partial_checkpoint" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_autocomplete/autocomplete_final.chkpt" />
-    <param name="partial_checkpoint_type" type="string" value="autocomplete" />-->
+    <!-- -->
     
     <!--<param name="load_checkpoint" type="string" value="$(find nbv_3d_cnn_real_image)/data/model_projection/projection_final.chkpt" />-->
     

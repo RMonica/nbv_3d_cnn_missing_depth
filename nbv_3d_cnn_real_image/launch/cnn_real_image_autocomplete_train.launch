@@ -6,7 +6,7 @@
 
     <param name="tensorboard_directory" type="string" value="$(find nbv_3d_cnn_real_image)/data/tensorboard/" />
 
-    <param name="load_checkpoint" type="string" value="autocomplete_final.chkpt" />
+    <!--<param name="load_checkpoint" type="string" value="autocomplete_final.chkpt" />-->
     <!--<param name="load_checkpoint" type="string" value="_epoch_40.chkpt" />-->
     
     <param name="training_dataset_first_element" type="int" value="0" />
